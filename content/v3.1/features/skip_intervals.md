@@ -1,4 +1,4 @@
-### Skip & Rewind Intervals
+### Skip Intervals
 
 Customizes the skip backward and skip forward step durations on lock screen remote command centers (supported on iOS, macOS, and Web).
 

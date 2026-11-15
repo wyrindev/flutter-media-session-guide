@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>flutter_media_session — Interactive Guide & Documentation</title>
-  <meta name="description" content="Interactive configuration and integration guide for flutter_media_session. Synchronize playback state, track metadata, and lock-screen/system media controls across Android, iOS, macOS, Windows, and Web.">
-  <meta name="keywords" content="flutter, media session, media_session, audio player, just_audio, media_kit, AndroidX Media3, MPRemoteCommandCenter, SMTC, SystemMediaTransportControls, lock screen audio, background audio">
+  <meta name="description" content="Interactive guide for flutter_media_session. Synchronize background audio playback, hardware media button controls, and track metadata across Android, iOS, macOS, Windows, Linux, and Web.">
+  <meta name="keywords" content="flutter, media session, media_session, media buttons, hardware media keys, headset controls, background audio, background playback, wake lock, audio player, just_audio, media_kit, AndroidX Media3, MPRemoteCommandCenter, SMTC, SystemMediaTransportControls, MPRIS, D-Bus, lock screen audio">
   <meta name="author" content="Wyrin (wyrindev)">
   <meta name="robots" content="index, follow">
 
@@ -17,13 +17,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{CANONICAL_URL}}">
   <meta property="og:title" content="flutter_media_session — Interactive Guide">
-  <meta property="og:description" content="Interactive configuration and integration guide for flutter_media_session across Android, iOS, macOS, Windows, and Web.">
+  <meta property="og:description" content="Interactive guide for flutter_media_session: background audio playback, lock screen controls, hardware media keys, and system media hubs across Android, iOS, macOS, Windows, Linux, and Web.">
   <meta property="og:site_name" content="flutter_media_session">
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="flutter_media_session — Interactive Guide">
-  <meta name="twitter:description" content="Interactive integration guide for flutter_media_session. Synchronize playback metadata, lock screen controls, and player adapters.">
+  <meta name="twitter:description" content="Interactive guide for flutter_media_session: background audio, hardware media keys, and lock screen controls across all platforms.">
 
   <!-- JSON-LD Structured Data for Technical Documentation / Software -->
   <script type="application/ld+json">
@@ -31,7 +31,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "flutter_media_session Interactive Guide & Documentation",
-    "description": "Interactive configuration and integration guide for flutter_media_session across Android, iOS, macOS, Windows, and Web.",
+    "description": "Interactive guide for flutter_media_session: background audio playback, hardware media button events, and lock screen controls across Android, iOS, macOS, Windows, Linux, and Web.",
     "author": {
       "@type": "Person",
       "name": "Wyrin",
@@ -40,7 +40,7 @@
     "about": {
       "@type": "SoftwareApplication",
       "name": "flutter_media_session",
-      "operatingSystem": "Android, iOS, macOS, Windows, Web",
+      "operatingSystem": "Android, iOS, macOS, Windows, Linux, Web",
       "applicationCategory": "DeveloperApplication"
     }
   }
@@ -1378,7 +1378,8 @@
   <symbol id="icon-android" viewBox="0 -960 960 960"><path d="M40-240q9-107 65.5-197T256-580l-74-128q-6-9-3-19t13-15q8-5 18-2t16 12l74 128q86-36 180-36t180 36l74-128q6-9 16-12t18 2q10 5 13 15t-3 19l-74 128q94 53 150.5 143T920-240H40Zm240-110q21 0 35.5-14.5T330-400q0-21-14.5-35.5T280-450q-21 0-35.5 14.5T230-400q0 21 14.5 35.5T280-350Zm400 0q21 0 35.5-14.5T730-400q0-21-14.5-35.5T680-450q-21 0-35.5 14.5T630-400q0 21 14.5 35.5T680-350Z"/></symbol>
   <symbol id="icon-phone_iphone" viewBox="0 -960 960 960"><path d="M280-40q-33 0-56.5-23.5T200-120v-720q0-33 23.5-56.5T280-920h400q33 0 56.5 23.5T760-840v720q0 33-23.5 56.5T680-40H280Zm0-200v120h400v-120H280Zm200 100q17 0 28.5-11.5T520-180q0-17-11.5-28.5T480-220q-17 0-28.5 11.5T440-180q0 17 11.5 28.5T480-140ZM280-320h400v-400H280v400Zm0-480h400v-40H280v40Zm0 560v120-120Zm0-560v-40 40Z"/></symbol>
   <symbol id="icon-laptop_mac" viewBox="0 -960 960 960"><path d="M80-160q-33 0-56.5-23.5T0-240h160q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240h160q0 33-23.5 56.5T880-160H80Zm400-40q17 0 28.5-11.5T520-240q0-17-11.5-28.5T480-280q-17 0-28.5 11.5T440-240q0 17 11.5 28.5T480-200ZM160-320h640v-440H160v440Zm0 0v-440 440Z"/></symbol>
-  <symbol id="icon-desktop_windows" viewBox="0 -960 960 960"><path d="M320-120v-80h80v-80H160q-33 0-56.5-23.5T80-360v-400q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v400q0 33-23.5 56.5T800-280H560v80h80v80H320ZM160-360h640v-400H160v400Zm0 0v-400 400Z"/></symbol>
+  <symbol id="icon-windows" viewBox="0 0 24 24"><path d="M3,12V6.75L9,5.43V11.91L3,12M20,3V11.75L10,11.9V5.21L20,3M3,13L9,13.09V19.9L3,18.75V13M20,13.25V22L10,20.09V13.1L20,13.25Z"/></symbol>
+  <symbol id="icon-linux" viewBox="0 0 24 24"><path d="M19,16C19,17.72 18.37,19.3 17.34,20.5C17.75,20.89 18,21.41 18,22H6C6,21.41 6.25,20.89 6.66,20.5C5.63,19.3 5,17.72 5,16H3C3,14.75 3.57,13.64 4.46,12.91L4.47,12.89C6,11.81 7,10 7,8V7A5,5 0 0,1 12,2A5,5 0 0,1 17,7V8C17,10 18,11.81 19.53,12.89L19.54,12.91C20.43,13.64 21,14.75 21,16H19M16,16A4,4 0 0,0 12,12A4,4 0 0,0 8,16A4,4 0 0,0 12,20A4,4 0 0,0 16,16M10,9L12,10.5L14,9L12,7.5L10,9M10,5A1,1 0 0,0 9,6A1,1 0 0,0 10,7A1,1 0 0,0 11,6A1,1 0 0,0 10,5M14,5A1,1 0 0,0 13,6A1,1 0 0,0 14,7A1,1 0 0,0 15,6A1,1 0 0,0 14,5Z"/></symbol>
   <symbol id="icon-language" viewBox="0 -960 960 960"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-155.5t86-127Q252-817 325-848.5T480-880q83 0 155.5 31.5t127 86q54.5 54.5 86 127T880-480q0 82-31.5 155t-86 127.5q-54.5 54.5-127 86T480-80Zm0-82q26-36 45-75t31-83H404q12 44 31 83t45 75Zm-104-16q-18-33-31.5-68.5T322-320H204q29 50 72.5 87t99.5 55Zm208 0q56-18 99.5-55t72.5-87H638q-9 38-22.5 73.5T584-178ZM170-400h136q-3-20-4.5-39.5T300-480q0-21 1.5-40.5T306-560H170q-5 20-7.5 39.5T160-480q0 21 2.5 40.5T170-400Zm216 0h188q3-20 4.5-39.5T580-480q0-21-1.5-40.5T574-560H386q-3 20-4.5 39.5T380-480q0 21 1.5 40.5T386-400Zm268 0h136q5-20 7.5-39.5T800-480q0-21-2.5-40.5T790-560H654q3 20 4.5 39.5T660-480q0 21-1.5 40.5T654-400Zm-16-240h118q-29-50-72.5-87T584-782q18 33 31.5 68.5T638-640Zm-234 0h152q-12-44-31-83t-45-75q-26 36-45 75t-31 83Zm-200 0h118q9-38 22.5-73.5T376-782q-56 18-99.5 55T204-640Z"/></symbol>
   <symbol id="icon-public" viewBox="0 -960 960 960"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-82v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q20-22 36-47.5t26.5-53q10.5-27.5 16-56.5t5.5-59q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z"/></symbol>
   <symbol id="icon-close" viewBox="0 -960 960 960"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></symbol>
@@ -1550,6 +1551,10 @@
             <svg class="icon chip-check"><use href="#icon-check"></use></svg>
             Web
           </button>
+          <button class="m3-chip" data-platform="linux" onclick="togglePlatformSelect(this, 'linux')">
+            <svg class="icon chip-check"><use href="#icon-check"></use></svg>
+            Linux
+          </button>
         </div>
 
         <!-- Two-column split layout for side navigation and wide content on desktop -->
@@ -1573,6 +1578,9 @@
             </div>
             <div class="platform-pane" id="pane-web" style="display:none;">
               <div class="prose">{{CONTENT_PLATFORM_WEB}}</div>
+            </div>
+            <div class="platform-pane" id="pane-linux" style="display:none;">
+              <div class="prose">{{CONTENT_PLATFORM_LINUX}}</div>
             </div>
 
             <!-- Per-platform complete button inside detail panel -->
@@ -1677,34 +1685,20 @@
     <section class="step-section" id="step-4">
       <div class="card">
         <div class="card-header">
-          <h2>
-            <svg class="icon" style="fill: var(--md-sys-color-primary);"><use href="#icon-tune"></use></svg>
-            4. Extra Features & Controls
-          </h2>
-          <p>Select and configure additional capabilities. Each feature lists supported platforms and all Dart API
-            parameters.</p>
-        </div>
-
-        <!-- Filter features bar -->
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-          <div class="chips-row" id="feature-filter-chips">
-            <button class="m3-chip selected" data-feature-filter="all" onclick="setFeatureFilter('all', this)">
-              <svg class="icon chip-check"><use href="#icon-check"></use></svg>
-              All
-            </button>
-            <button class="m3-chip" data-feature-filter="controls" onclick="setFeatureFilter('controls', this)">
-              <svg class="icon chip-check"><use href="#icon-check"></use></svg>
-              Actions & Layout
-            </button>
-            <button class="m3-chip" data-feature-filter="system" onclick="setFeatureFilter('system', this)">
-              <svg class="icon chip-check"><use href="#icon-check"></use></svg>
-              Lifecycle & Background
-            </button>
-          </div>
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span
-              style="font-size: 0.8rem; color: var(--md-sys-color-on-surface-variant); font-weight: 500;">Platforms:</span>
-            <div id="active-platform-badges" class="platform-tags"></div>
+          <div class="card-header-top">
+            <div>
+              <h2>
+                <svg class="icon" style="fill: var(--md-sys-color-primary);"><use href="#icon-tune"></use></svg>
+                4. Extra Features
+              </h2>
+              <p>Select and configure additional capabilities. Each feature lists supported platforms and all Dart API
+                parameters.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span
+                style="font-size: 0.8rem; color: var(--md-sys-color-on-surface-variant); font-weight: 500;">Platforms:</span>
+              <div id="active-platform-badges" class="platform-tags"></div>
+            </div>
           </div>
         </div>
 
@@ -1713,11 +1707,11 @@
           <div class="features-sidebar" id="feature-nav-list">
             <!-- Action Slot Layout -->
             <button class="feature-nav-btn active" data-feature-id="action_slot" data-platforms="android"
-              data-category="controls" onclick="selectFeature('action_slot')">
+              onclick="selectFeature('action_slot')">
               <span class="nav-title">
                 <svg class="icon"
                   style="width:20px; height:20px; fill: var(--md-sys-color-primary);"><use href="#icon-grid_view"></use></svg>
-                Action Slot Layout & Icons
+                Action Slot Layout
               </span>
               <div class="platform-tags">
                 <span class="platform-tag"><svg class="icon tag-icon"><use href="#icon-android"></use></svg>Android</span>
@@ -1726,7 +1720,7 @@
 
             <!-- Background Keep-Alive -->
             <button class="feature-nav-btn" data-feature-id="keep_alive" data-platforms="android,web"
-              data-category="system" onclick="selectFeature('keep_alive')">
+              onclick="selectFeature('keep_alive')">
               <span class="nav-title">
                 <svg class="icon"
                   style="width:20px; height:20px; fill: var(--md-sys-color-primary);"><use href="#icon-bolt"></use></svg>
@@ -1740,11 +1734,11 @@
 
             <!-- Skip Intervals -->
             <button class="feature-nav-btn" data-feature-id="skip_intervals" data-platforms="ios,macos,web"
-              data-category="controls" onclick="selectFeature('skip_intervals')">
+              onclick="selectFeature('skip_intervals')">
               <span class="nav-title">
                 <svg class="icon"
                   style="width:20px; height:20px; fill: var(--md-sys-color-primary);"><use href="#icon-fast_forward"></use></svg>
-                Skip & Rewind Intervals
+                Skip Intervals
               </span>
               <div class="platform-tags">
                 <span class="platform-tag"><svg class="icon tag-icon"><use href="#icon-phone_iphone"></use></svg>iOS</span>
@@ -1755,11 +1749,11 @@
 
             <!-- Audio Interruptions -->
             <button class="feature-nav-btn" data-feature-id="interruptions" data-platforms="android"
-              data-category="system" onclick="selectFeature('interruptions')">
+              onclick="selectFeature('interruptions')">
               <span class="nav-title">
                 <svg class="icon"
                   style="width:20px; height:20px; fill: var(--md-sys-color-primary);"><use href="#icon-phone_in_talk"></use></svg>
-                Audio Interruptions & Focus
+                Audio Interruptions
               </span>
               <div class="platform-tags">
                 <span class="platform-tag"><svg class="icon tag-icon"><use href="#icon-android"></use></svg>Android</span>
@@ -1768,7 +1762,7 @@
 
             <!-- Available Actions -->
             <button class="feature-nav-btn" data-feature-id="available_actions"
-              data-platforms="android,ios,macos,windows,web" data-category="controls"
+              data-platforms="android,ios,macos,windows,linux,web"
               onclick="selectFeature('available_actions')">
               <span class="nav-title">
                 <svg class="icon"
@@ -1782,8 +1776,8 @@
             </button>
 
             <!-- Session Lifecycle -->
-            <button class="feature-nav-btn" data-feature-id="lifecycle" data-platforms="android,ios,macos,windows,web"
-              data-category="system" onclick="selectFeature('lifecycle')">
+            <button class="feature-nav-btn" data-feature-id="lifecycle" data-platforms="android,ios,macos,windows,linux,web"
+              onclick="selectFeature('lifecycle')">
               <span class="nav-title">
                 <svg class="icon"
                   style="width:20px; height:20px; fill: var(--md-sys-color-primary);"><use href="#icon-autorenew"></use></svg>
@@ -1795,16 +1789,17 @@
               </div>
             </button>
 
-            <!-- Windows AUMID Identity -->
-            <button class="feature-nav-btn" data-feature-id="windows_aumid" data-platforms="windows"
-              data-category="system" onclick="selectFeature('windows_aumid')">
+            <!-- App Identity -->
+            <button class="feature-nav-btn" data-feature-id="app_id" data-platforms="windows,linux"
+              onclick="selectFeature('app_id')">
               <span class="nav-title">
                 <svg class="icon"
                   style="width:20px; height:20px; fill: var(--md-sys-color-primary);"><use href="#icon-badge"></use></svg>
-                Windows AUMID Identity
+                App Identity
               </span>
               <div class="platform-tags">
-                <span class="platform-tag"><svg class="icon tag-icon"><use href="#icon-desktop_windows"></use></svg>Windows</span>
+                <span class="platform-tag"><svg class="icon tag-icon"><use href="#icon-windows"></use></svg>Windows</span>
+                <span class="platform-tag"><svg class="icon tag-icon"><use href="#icon-linux"></use></svg>Linux</span>
               </div>
             </button>
           </div>
@@ -1814,7 +1809,7 @@
             <div class="feature-detail-panel active" id="feature-panel-action_slot">
               <div class="feature-panel-header">
                 <div class="feature-panel-title">
-                  <span>Action Slot Layout & Icons</span>
+                  <span>Action Slot Layout</span>
                 </div>
                 <button class="prompt-wand-btn" onclick="toggleFeaturePrompt('action_slot')" aria-expanded="false" id="wand-btn-feat-action_slot" title="Copy AI Prompt">
                   <svg class="icon" style="width:16px;height:16px;fill:currentColor;"><use href="#icon-auto_fix_high"></use></svg>
@@ -1826,7 +1821,7 @@
                 <div class="prompt-drawer-header">
                   <span class="prompt-drawer-title">
                     <svg class="icon" style="width:16px;height:16px;fill:var(--md-sys-color-primary);"><use href="#icon-auto_fix_high"></use></svg>
-                    AI Agent Prompt: Action Slot Layout & Icons
+                    AI Agent Prompt: Action Slot Layout
                   </span>
                 </div>
                 <textarea class="prompt-textarea" id="prompt-text-feat-action_slot" readonly></textarea>
@@ -1866,7 +1861,7 @@
             <div class="feature-detail-panel" id="feature-panel-skip_intervals">
               <div class="feature-panel-header">
                 <div class="feature-panel-title">
-                  <span>Skip & Rewind Intervals</span>
+                  <span>Skip Intervals</span>
                 </div>
                 <button class="prompt-wand-btn" onclick="toggleFeaturePrompt('skip_intervals')" aria-expanded="false" id="wand-btn-feat-skip_intervals" title="Copy AI Prompt">
                   <svg class="icon" style="width:16px;height:16px;fill:currentColor;"><use href="#icon-auto_fix_high"></use></svg>
@@ -1878,7 +1873,7 @@
                 <div class="prompt-drawer-header">
                   <span class="prompt-drawer-title">
                     <svg class="icon" style="width:16px;height:16px;fill:var(--md-sys-color-primary);"><use href="#icon-auto_fix_high"></use></svg>
-                    AI Agent Prompt: Skip & Rewind Intervals
+                    AI Agent Prompt: Skip Intervals
                   </span>
                 </div>
                 <textarea class="prompt-textarea" id="prompt-text-feat-skip_intervals" readonly></textarea>
@@ -1892,7 +1887,7 @@
             <div class="feature-detail-panel" id="feature-panel-interruptions">
               <div class="feature-panel-header">
                 <div class="feature-panel-title">
-                  <span>Audio Interruptions & Focus</span>
+                  <span>Audio Interruptions</span>
                 </div>
                 <button class="prompt-wand-btn" onclick="toggleFeaturePrompt('interruptions')" aria-expanded="false" id="wand-btn-feat-interruptions" title="Copy AI Prompt">
                   <svg class="icon" style="width:16px;height:16px;fill:currentColor;"><use href="#icon-auto_fix_high"></use></svg>
@@ -1904,7 +1899,7 @@
                 <div class="prompt-drawer-header">
                   <span class="prompt-drawer-title">
                     <svg class="icon" style="width:16px;height:16px;fill:var(--md-sys-color-primary);"><use href="#icon-auto_fix_high"></use></svg>
-                    AI Agent Prompt: Audio Interruptions & Focus
+                    AI Agent Prompt: Audio Interruptions
                   </span>
                 </div>
                 <textarea class="prompt-textarea" id="prompt-text-feat-interruptions" readonly></textarea>
@@ -1967,31 +1962,31 @@
               </div>
               <div class="prose">{{CONTENT_FEATURE_LIFECYCLE}}</div>
             </div>
-            <div class="feature-detail-panel" id="feature-panel-windows_aumid">
+            <div class="feature-detail-panel" id="feature-panel-app_id">
               <div class="feature-panel-header">
                 <div class="feature-panel-title">
-                  <span>Windows AUMID Identity</span>
+                  <span>App Identity</span>
                 </div>
-                <button class="prompt-wand-btn" onclick="toggleFeaturePrompt('windows_aumid')" aria-expanded="false" id="wand-btn-feat-windows_aumid" title="Copy AI Prompt">
+                <button class="prompt-wand-btn" onclick="toggleFeaturePrompt('app_id')" aria-expanded="false" id="wand-btn-feat-app_id" title="Copy AI Prompt">
                   <svg class="icon" style="width:16px;height:16px;fill:currentColor;"><use href="#icon-auto_fix_high"></use></svg>
                   <span>Agent Prompt</span>
                 </button>
               </div>
               <!-- Feature Prompt Drawer -->
-              <div class="prompt-drawer" id="prompt-drawer-feat-windows_aumid">
+              <div class="prompt-drawer" id="prompt-drawer-feat-app_id">
                 <div class="prompt-drawer-header">
                   <span class="prompt-drawer-title">
                     <svg class="icon" style="width:16px;height:16px;fill:var(--md-sys-color-primary);"><use href="#icon-auto_fix_high"></use></svg>
-                    AI Agent Prompt: Windows AUMID Identity
+                    AI Agent Prompt: App Identity
                   </span>
                 </div>
-                <textarea class="prompt-textarea" id="prompt-text-feat-windows_aumid" readonly></textarea>
-                <button class="prompt-copy-btn" onclick="copyPrompt('prompt-text-feat-windows_aumid', this)">
+                <textarea class="prompt-textarea" id="prompt-text-feat-app_id" readonly></textarea>
+                <button class="prompt-copy-btn" onclick="copyPrompt('prompt-text-feat-app_id', this)">
                   <svg class="icon" style="width:14px;height:14px;"><use href="#icon-content_copy"></use></svg>
                   <span>Copy Prompt</span>
                 </button>
               </div>
-              <div class="prose">{{CONTENT_FEATURE_WINDOWS_AUMID}}</div>
+              <div class="prose">{{CONTENT_FEATURE_APP_ID}}</div>
             </div>
           </div>
         </div>
@@ -2016,7 +2011,7 @@
       <div class="modal-header">
         <h3 id="feedback-dialog-title">
           <svg class="icon" style="fill: var(--md-sys-color-primary);" aria-hidden="true"><use href="#icon-rate_review"></use></svg>
-          Guide & Documentation Feedback
+          Guide Documentation Feedback
         </h3>
         <button class="icon-btn" onclick="closeFeedbackModal()" title="Close" aria-label="Close dialog">
           <svg class="icon"><use href="#icon-close"></use></svg>
@@ -2034,8 +2029,8 @@
       <div class="feedback-form-group">
         <label for="feedback-category">What area would you like to give feedback on?</label>
         <select class="feedback-select" id="feedback-category">
-          <option value="doc_clarity">Documentation Clarity & Code Samples</option>
-          <option value="layout_ui">Interactive Guide Layout & UI/UX</option>
+          <option value="doc_clarity">Documentation Clarity and Code Samples</option>
+          <option value="layout_ui">Interactive Guide Layout / UI</option>
           <option value="missing_feature">Missing Feature Explanation or Platform Info</option>
           <option value="typo_grammar">Typo / Outdated API Reference</option>
           <option value="other">Other Documentation Suggestion</option>
@@ -2256,7 +2251,8 @@
       android: 'android',
       ios: 'phone_iphone',
       macos: 'laptop_mac',
-      windows: 'desktop_windows',
+      windows: 'windows',
+      linux: 'linux',
       web: 'language'
     };
 
@@ -2298,42 +2294,23 @@
       }
     }
 
-    // Feature filter state
-    let currentFeatureCategory = 'all';
-
-    function setFeatureFilter(category, btn) {
-      currentFeatureCategory = category;
-      document.querySelectorAll('#feature-filter-chips .m3-chip').forEach(b => b.classList.remove('selected'));
-      if (btn) btn.classList.add('selected');
-      applyFeatureFilters();
-    }
-
     function applyFeatureFilters() {
       const navButtons = document.querySelectorAll('.feature-nav-btn');
       let firstVisibleId = null;
 
       navButtons.forEach(btn => {
-        const itemCategory = btn.getAttribute('data-category');
-        const itemPlatforms = btn.getAttribute('data-platforms').split(',').map(s => s.trim());
+        const itemPlatforms = btn.getAttribute('data-platforms').split(/[,\s]+/).map(s => s.trim()).filter(Boolean);
         const fid = btn.getAttribute('data-feature-id');
-
-        // Category filter check
-        const matchesCategory = (currentFeatureCategory === 'all') || (itemCategory === currentFeatureCategory);
 
         // Platform compatibility check: does this feature support AT LEAST ONE selected platform?
         const isCompatible = itemPlatforms.some(p => selectedPlatforms.has(p));
 
-        if (!matchesCategory) {
-          btn.classList.add('hidden-by-filter');
+        if (isCompatible) {
+          btn.classList.remove('incompatible');
         } else {
-          btn.classList.remove('hidden-by-filter');
-          if (isCompatible) {
-            btn.classList.remove('incompatible');
-          } else {
-            btn.classList.add('incompatible');
-          }
-          if (!firstVisibleId) firstVisibleId = fid;
+          btn.classList.add('incompatible');
         }
+        if (!firstVisibleId) firstVisibleId = fid;
       });
 
       // If current active item was hidden, switch to the first visible one
@@ -2379,7 +2356,7 @@
       const details = detailsEl.value.trim();
 
       const title = encodeURIComponent(`[Guide Feedback] ${category}`);
-      const bodyContent = `### Guide Feedback & Suggestion
+      const bodyContent = `### Guide Feedback
 
 **Area:** ${category}
 
@@ -2450,13 +2427,13 @@ ${details ? details : '_No additional details provided._'}
     let currentAdapter = 'just_audio';
 
     const FEATURE_TITLES_MAP = {
-      action_slot: 'Action Slot Layout & Icons',
+      action_slot: 'Action Slot Layout',
       keep_alive: 'Background Keep-Alive',
-      skip_intervals: 'Skip & Rewind Intervals',
-      interruptions: 'Audio Interruptions & Focus',
+      skip_intervals: 'Skip Intervals',
+      interruptions: 'Audio Interruptions',
       available_actions: 'Available Actions Filtering',
       lifecycle: 'Session Lifecycle',
-      windows_aumid: 'Windows AUMID Identity'
+      app_id: 'App Identity'
     };
 
     const FEATURE_SUPPORT_MAP = {
@@ -2464,9 +2441,9 @@ ${details ? details : '_No additional details provided._'}
       keep_alive: ['android', 'web'],
       skip_intervals: ['ios', 'macos', 'web'],
       interruptions: ['android'],
-      available_actions: ['android', 'ios', 'macos', 'windows', 'web'],
-      lifecycle: ['android', 'ios', 'macos', 'windows', 'web'],
-      windows_aumid: ['windows']
+      available_actions: ['android', 'ios', 'macos', 'windows', 'linux', 'web'],
+      lifecycle: ['android', 'ios', 'macos', 'windows', 'linux', 'web'],
+      app_id: ['windows', 'linux']
     };
 
     const ADAPTER_DISPLAY_NAMES = {

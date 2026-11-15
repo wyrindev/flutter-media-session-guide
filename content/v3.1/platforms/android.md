@@ -27,4 +27,4 @@ By default, the plugin declares `FOREGROUND_SERVICE_CONNECTED_DEVICE` for cast/r
     </application>
 </manifest>
 ```
-> Custom notification buttons and drawable icons can be configured under **Action Slot Layout & Icons**.
+> Custom notification buttons and drawable icons can be configured under **Action Slot Layout**.

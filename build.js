@@ -84,40 +84,43 @@ marked.setOptions({
   breaks: true,
 });
 
-// Map placeholder keys to content markdown file paths
+// Map placeholder keys to relative markdown file paths within each version directory
 const contentMapping = {
   // Step 1: Installation
-  '{{CONTENT_INSTALLATION}}': 'content/installation.md',
+  '{{CONTENT_INSTALLATION}}': 'installation.md',
 
   // Step 2: Platforms
-  '{{CONTENT_PLATFORM_ANDROID}}': 'content/platforms/android.md',
-  '{{CONTENT_PLATFORM_IOS}}': 'content/platforms/ios.md',
-  '{{CONTENT_PLATFORM_MACOS}}': 'content/platforms/macos.md',
-  '{{CONTENT_PLATFORM_WINDOWS}}': 'content/platforms/windows.md',
-  '{{CONTENT_PLATFORM_WEB}}': 'content/platforms/web.md',
+  '{{CONTENT_PLATFORM_ANDROID}}': 'platforms/android.md',
+  '{{CONTENT_PLATFORM_IOS}}': 'platforms/ios.md',
+  '{{CONTENT_PLATFORM_MACOS}}': 'platforms/macos.md',
+  '{{CONTENT_PLATFORM_WINDOWS}}': 'platforms/windows.md',
+  '{{CONTENT_PLATFORM_WEB}}': 'platforms/web.md',
+  '{{CONTENT_PLATFORM_LINUX}}': 'platforms/linux.md',
 
   // Step 3: Adapters
-  '{{CONTENT_ADAPTER_JUST_AUDIO}}': 'content/adapters/just_audio.md',
-  '{{CONTENT_ADAPTER_MEDIA_KIT}}': 'content/adapters/media_kit.md',
-  '{{CONTENT_ADAPTER_MANUAL}}': 'content/adapters/manual.md',
+  '{{CONTENT_ADAPTER_JUST_AUDIO}}': 'adapters/just_audio.md',
+  '{{CONTENT_ADAPTER_MEDIA_KIT}}': 'adapters/media_kit.md',
+  '{{CONTENT_ADAPTER_MANUAL}}': 'adapters/manual.md',
 
   // Step 4: Features
-  '{{CONTENT_FEATURE_ACTION_SLOT}}': 'content/features/action_slot.md',
-  '{{CONTENT_FEATURE_KEEP_ALIVE}}': 'content/features/keep_alive.md',
-  '{{CONTENT_FEATURE_SKIP_INTERVALS}}': 'content/features/skip_intervals.md',
-  '{{CONTENT_FEATURE_INTERRUPTIONS}}': 'content/features/interruptions.md',
-  '{{CONTENT_FEATURE_AVAILABLE_ACTIONS}}': 'content/features/available_actions.md',
-  '{{CONTENT_FEATURE_LIFECYCLE}}': 'content/features/lifecycle.md',
-  '{{CONTENT_FEATURE_WINDOWS_AUMID}}': 'content/features/windows_aumid.md',
+  '{{CONTENT_FEATURE_ACTION_SLOT}}': 'features/action_slot.md',
+  '{{CONTENT_FEATURE_KEEP_ALIVE}}': 'features/keep_alive.md',
+  '{{CONTENT_FEATURE_SKIP_INTERVALS}}': 'features/skip_intervals.md',
+  '{{CONTENT_FEATURE_INTERRUPTIONS}}': 'features/interruptions.md',
+  '{{CONTENT_FEATURE_AVAILABLE_ACTIONS}}': 'features/available_actions.md',
+  '{{CONTENT_FEATURE_LIFECYCLE}}': 'features/lifecycle.md',
+  '{{CONTENT_FEATURE_APP_ID}}': 'features/app_id.md',
+  '{{CONTENT_FEATURE_WINDOWS_AUMID}}': 'features/windows_aumid.md',
 };
 
 // Versions from 3.1 onwards (Major.Minor tracking, ignoring patch differences)
 const SUPPORTED_VERSIONS = [
+  { slug: 'v3.2', label: 'v3.2', spec: '^3.2.0' },
   { slug: 'v3.1', label: 'v3.1', spec: '^3.1.0' }
 ];
-const LATEST_SLUG = 'v3.1';
-const LATEST_LABEL = 'v3.1';
-const LATEST_SPEC = '^3.1.0';
+const LATEST_SLUG = 'v3.2';
+const LATEST_LABEL = 'v3.2';
+const LATEST_SPEC = '^3.2.0';
 
 function generateVersionOptions(currentVersionSlug, isLatestRoot = false) {
   let options = [];
@@ -161,14 +164,88 @@ function renderHtml(templateHtml, versionSlug, isLatestRoot = false) {
 `;
   }
 
-  // Process content mappings
+  // Version content directory (e.g. content/v3.2 or content/v3.1)
+  const versionDir = path.join(__dirname, 'content', versionSlug);
+  const fallbackDir = path.join(__dirname, 'content');
+
+  const hasLinux = fs.existsSync(path.join(versionDir, 'platforms/linux.md'));
+  const hasAppId = fs.existsSync(path.join(versionDir, 'features/app_id.md'));
+
+  // Adjust template dynamically for versions without Linux support (e.g. v3.1)
+  if (!hasLinux) {
+    html = html.replace(/\s*<button class="m3-chip"[^>]*data-platform="linux"[^>]*>[\s\S]*?<\/button>/gi, '');
+    html = html.replace(/\s*<div class="platform-pane" id="pane-linux"[^>]*>[\s\S]*?<\/div>\s*<\/div>/gi, '</div>');
+    html = html.replace(/Android, iOS, macOS, Windows, Linux, and Web/g, 'Android, iOS, macOS, Windows, and Web');
+    html = html.replace(/Android, iOS, macOS, Windows, Linux, Web/g, 'Android, iOS, macOS, Windows, Web');
+    html = html.replace(/, MPRIS, D-Bus/g, '');
+    html = html.replace(/\s*linux:\s*'Linux',?/g, '');
+    html = html.replace(/\s*linux:\s*'linux',?/g, '');
+    html = html.replace(/data-platforms="([^"]*),linux([^"]*)"/g, 'data-platforms="$1$2"');
+    html = html.replace(/'windows',\s*'linux',\s*'web'/g, "'windows', 'web'");
+    html = html.replace(/'windows',\s*'linux'/g, "'windows'");
+  }
+
+  // Adjust template dynamically for versions using Windows AUMID instead of setAppId (e.g. v3.1)
+  if (!hasAppId) {
+    // Replace App Identity nav button with Windows AUMID button
+    const legacyAumidNav = `<!-- Windows AUMID Identity -->
+            <button class="feature-nav-btn" data-feature-id="windows_aumid" data-platforms="windows"
+              data-category="system" onclick="selectFeature('windows_aumid')">
+              <span class="nav-title">
+                <svg class="icon"
+                  style="width:20px; height:20px; fill: var(--md-sys-color-primary);"><use href="#icon-badge"></use></svg>
+                Windows AUMID Identity
+              </span>
+              <div class="platform-tags">
+                <span class="platform-tag"><svg class="icon tag-icon"><use href="#icon-windows"></use></svg>Windows</span>
+              </div>
+            </button>`;
+    html = html.replace(/<!-- App Identity -->[\s\S]*?<\/button>/i, legacyAumidNav);
+
+    // Replace App Identity panel with Windows AUMID panel
+    const legacyAumidPanel = `<div class="feature-detail-panel" id="feature-panel-windows_aumid">
+              <div class="feature-panel-header">
+                <div class="feature-panel-title">
+                  <span>Windows AUMID Identity</span>
+                </div>
+                <button class="prompt-wand-btn" onclick="toggleFeaturePrompt('windows_aumid')" aria-expanded="false" id="wand-btn-feat-windows_aumid" title="Copy AI Prompt">
+                  <svg class="icon" style="width:16px;height:16px;fill:currentColor;"><use href="#icon-auto_fix_high"></use></svg>
+                  <span>Agent Prompt</span>
+                </button>
+              </div>
+              <div class="prompt-drawer" id="prompt-drawer-feat-windows_aumid">
+                <div class="prompt-drawer-header">
+                  <span class="prompt-drawer-title">
+                    <svg class="icon" style="width:16px;height:16px;fill:var(--md-sys-color-primary);"><use href="#icon-auto_fix_high"></use></svg>
+                    AI Agent Prompt: Windows AUMID Identity
+                  </span>
+                </div>
+                <textarea class="prompt-textarea" id="prompt-text-feat-windows_aumid" readonly></textarea>
+                <button class="prompt-copy-btn" onclick="copyPrompt('prompt-text-feat-windows_aumid', this)">
+                  <svg class="icon" style="width:14px;height:14px;"><use href="#icon-content_copy"></use></svg>
+                  <span>Copy Prompt</span>
+                </button>
+              </div>
+              <div class="prose">{{CONTENT_FEATURE_WINDOWS_AUMID}}</div>
+            </div>`;
+    html = html.replace(/<div class="feature-detail-panel" id="feature-panel-app_id">[\s\S]*?{{CONTENT_FEATURE_APP_ID}}<\/div>\s*<\/div>/i, legacyAumidPanel);
+
+    html = html.replace("app_id: 'App Identity'", "windows_aumid: 'Windows AUMID Identity'");
+    html = html.replace("app_id: ['windows']", "windows_aumid: ['windows']");
+    html = html.replace("app_id: ['windows', 'linux']", "windows_aumid: ['windows']");
+  }
+
+  // Process content mappings from version-specific content directory
   const currentSpec = isLatestRoot ? LATEST_SPEC : (SUPPORTED_VERSIONS.find(v => v.slug === versionSlug)?.spec || '^3.1.0');
 
   for (const [placeholder, relativeMdPath] of Object.entries(contentMapping)) {
-    const mdPath = path.join(__dirname, relativeMdPath);
+    let mdPath = path.join(versionDir, relativeMdPath);
     if (!fs.existsSync(mdPath)) {
-      console.warn(`Warning: Missing markdown file: ${relativeMdPath}`);
-      html = html.replace(placeholder, `<p><em>Content missing: ${relativeMdPath}</em></p>`);
+      mdPath = path.join(fallbackDir, relativeMdPath);
+    }
+
+    if (!fs.existsSync(mdPath)) {
+      html = html.replace(placeholder, '');
       continue;
     }
 
@@ -227,6 +304,7 @@ async function build() {
   const redirects = [
     '/ /flutter-media-session/ 302',
     '/flutter-media-session /flutter-media-session/ 301',
+    '/flutter-media-session/v3.2.* /flutter-media-session/v3.2/ 301',
     '/flutter-media-session/v3.1.* /flutter-media-session/v3.1/ 301'
   ];
   fs.writeFileSync(path.join(distDir, '_redirects'), redirects.join('\n'), 'utf8');
