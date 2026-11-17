@@ -21,6 +21,7 @@ await FlutterMediaSessionPlatform.instance.setBackgroundKeepAlive(false);
 #### Platform Behaviors
 
 - **Android:** Acquires `PARTIAL_WAKE_LOCK` and `WIFI_MODE_FULL_HIGH_PERF`. The `android.permission.WAKE_LOCK` permission is already included by the plugin's manifest.
+- **Linux:** Inhibits system screensaver and idle sleep via D-Bus (`org.freedesktop.ScreenSaver` `Inhibit`/`UnInhibit`).
 - **Web:** Requests a screen wake lock via `navigator.wakeLock.request('screen')` to keep the display active. The lock is automatically released by the browser when the tab is hidden.
 - **iOS / macOS:** Background audio is sustained by the OS audio session (`UIBackgroundModes: audio` on iOS). This method is a no-op on these platforms.
 - **Windows:** Background media playback is sustained by SMTC registration. This method is a no-op on Windows.
